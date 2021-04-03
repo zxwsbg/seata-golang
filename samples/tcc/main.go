@@ -16,8 +16,8 @@ func main() {
 	r := gin.Default()
 
 	config.InitConfWithDefault("testService")
-	pkg.NewRpcClient()
-	tcc.InitTCCResourceManager()
+	pkg.NewRpcClient() //新建了一个rpc的client, 同时创建一个remoteRpcClient
+	tcc.InitTCCResourceManager() //开启handlecommit 和 rollback 的协程
 
 	tm.Implement(service.ProxySvc)
 	tcc.ImplementTCC(service.TccProxyServiceA)
@@ -36,5 +36,5 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.Run()
+	r.Run(":8004")
 }

@@ -101,3 +101,8 @@ CREATE TABLE `undo_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE so_a (
+    id int,
+    name varchar(64)
+);

@@ -18,10 +18,10 @@ import (
 	"github.com/transaction-wg/seata-golang/samples/at/order_svc/dao"
 )
 
-const configPath = "/Users/scottlewis/dksl/git/1/seata-golang/samples/at/order_svc/conf/client.yml"
+const configPath = "/home/sbw/go/src/seata-golang/samples/at/order_svc/conf/client.yml"
 
 func main() {
-	r := gin.Default()
+	r := gin.Default() // router 创建一个路由handler
 	config.InitConf(configPath)
 	pkg.NewRpcClient()
 	exec.InitDataResourceManager()
@@ -44,7 +44,7 @@ func main() {
 
 	r.POST("/createSo", func(c *gin.Context) {
 		type req struct {
-			Req []*dao.SoMaster
+			Req []*dao.So_a
 		}
 		var q req
 		if err := c.ShouldBindJSON(&q); err != nil {
