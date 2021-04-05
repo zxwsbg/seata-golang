@@ -24,12 +24,13 @@ func (svc *Svc) CreateSo(ctx context.Context, rollback bool) error {
 	soMasters := []*dao.So_a{
 		{
 			Name: "sbw",
+			Money: 100,
 		},
 	}
 
 	reqs := []*dao2.AllocateInventoryReq{{
 		Name: "sbw",
-		Id: 1,
+		Money:100,
 	}}
 
 	type rq1 struct {

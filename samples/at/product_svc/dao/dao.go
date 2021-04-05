@@ -6,7 +6,8 @@ import (
 )
 
 const (
-	allocateInventorySql = `INSERT INTO seata_product.so_b (id,name) VALUES (?,?)`
+	allocateInventorySql = `INSERT INTO seata_product.so_b (id,name,money) VALUES (?,?,?)`
+	updateSoMaster = `UPDATE seata_product.so_b set money=? WHERE id=?`
 )
 
 type Dao struct {
@@ -16,6 +17,7 @@ type Dao struct {
 type AllocateInventoryReq struct {
 	Id int
 	Name string
+	Money int
 }
 
 var ID = 0
@@ -25,9 +27,11 @@ func (dao *Dao) AllocateInventory(ctx *context.RootContext, reqs []*AllocateInve
 		return err
 	}
 	for _, req := range reqs {
-		soid := ID
+		soid := ID%10
 		ID++
-		_, err := tx.Exec(allocateInventorySql, soid, req.Name)
+		req.Money = 70
+		_, err := tx.Exec(updateSoMaster, req.Money,soid)
+		//_, err := tx.Exec(allocateInventorySql, soid, req.Name,req.Money)
 		if err != nil {
 			tx.Rollback()
 			return err

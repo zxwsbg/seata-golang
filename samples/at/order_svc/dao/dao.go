@@ -6,7 +6,8 @@ import (
 )
 
 const (
-	insertSoMaster = `INSERT INTO seata_order.so_a (id,name) VALUES (?,?)`
+	insertSoMaster = `INSERT INTO seata_order.so_a (id,name,money) VALUES (?,?,?)`
+	updateSoMaster = `UPDATE seata_order.so_a set money=? WHERE id=?`
 )
 
 type Dao struct {
@@ -18,6 +19,7 @@ type Dao struct {
 type So_a struct {
 	Id int
 	Name string
+	Money int
 }
 
 var Tbl_ID = 0
@@ -29,9 +31,11 @@ func (dao *Dao) CreateSO(ctx *context.RootContext, soMasters []*So_a) ([]uint64,
 		return nil, err
 	}
 	for _, soMaster := range soMasters {
-		soid := Tbl_ID
+		soid := Tbl_ID%10
 		Tbl_ID += 1
-		_, err = tx.Exec(insertSoMaster, soid,soMaster.Name)
+		soMaster.Money = 30
+		_, err = tx.Exec(updateSoMaster,soMaster.Money,soid)
+		//_, err = tx.Exec(insertSoMaster, soid,soMaster.Name,soMaster.Money)
 		if err != nil {
 			tx.Rollback()
 			return nil, err
