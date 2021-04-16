@@ -104,5 +104,22 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE so_a (
     id int,
-    name varchar(64)
+    name varchar(64),
+    monery int
 );
+
+use seata_order;
+delimiter $$
+create procedure pre()
+begin
+declare i int;
+set i=0;
+while i<50000 do
+insert into so_a values(i,'sbw',100);
+set i=i+1;
+end while;
+end
+$$
+call pre();
+DROP procedure pre;
+$$

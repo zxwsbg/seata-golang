@@ -109,12 +109,12 @@ func SetLoggerCallerDisable() error {
 
 // Debug ...
 func Debug(v ...interface{}) {
-	log.Debug(v)
+	//log.Debug(v)
 }
 
 // Debugf ...
 func Debugf(format string, v ...interface{}) {
-	log.Debugf(format, v)
+	//log.Debugf(format, v)
 }
 
 // Info ...
@@ -124,7 +124,7 @@ func Info(v ...interface{}) {
 
 // Infof ...
 func Infof(format string, v ...interface{}) {
-	log.Infof(format, v)
+	//log.Infof(format, v)
 }
 
 // Warn ...

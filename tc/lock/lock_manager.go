@@ -10,7 +10,7 @@ var lockManager LockManager
 
 type LockManager interface {
 	// AcquireLock Acquire lock boolean.
-	AcquireLock(branchSession *session.BranchSession) bool
+	AcquireLock2(branchSession *session.BranchSession) bool
 
 	// ReleaseLock Unlock boolean.
 	ReleaseLock(branchSession *session.BranchSession) bool

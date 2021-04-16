@@ -33,7 +33,7 @@ func InitDataResourceManager() {
 
 func (resourceManager DataSourceManager) LockQuery(branchType meta.BranchType, resourceId string, xid string,
 	lockKeys string) (bool, error) {
-	request := protocal.GlobalLockQueryRequest{
+request := protocal.GlobalLockQueryRequest{
 		BranchRegisterRequest: protocal.BranchRegisterRequest{
 			Xid:        xid,
 			ResourceId: resourceId,

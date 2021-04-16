@@ -18,7 +18,7 @@ type DataBaseLocker struct {
 	LockStore LockStore
 }
 
-func (locker *DataBaseLocker) AcquireLock(branchSession *session.BranchSession) bool {
+func (locker *DataBaseLocker) AcquireLock2(branchSession *session.BranchSession) bool {
 	if branchSession == nil {
 		log.Errorf("branchSession can't be null for memory/file locker.")
 		panic(errors.New("branchSession can't be null for memory/file locker."))

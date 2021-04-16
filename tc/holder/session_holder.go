@@ -76,7 +76,7 @@ func (sessionHolder SessionHolder) reload() {
 				default:
 					branchSessions := globalSession.GetSortedBranches()
 					for _, branchSession := range branchSessions {
-						lock.GetLockManager().AcquireLock(branchSession)
+						lock.GetLockManager().AcquireLock2(branchSession)
 					}
 					switch globalSession.Status {
 					case meta.GlobalStatusCommitting, meta.GlobalStatusCommitRetrying:

@@ -27,7 +27,7 @@ type MemoryLocker struct {
 	LockKeyCount int64
 }
 
-func (ml *MemoryLocker) AcquireLock(branchSession *session.BranchSession) bool {
+func (ml *MemoryLocker) AcquireLock2(branchSession *session.BranchSession) bool {
 	if branchSession == nil {
 		log.Errorf("branchSession can't be null for memory/file locker.")
 		panic(errors.New("branchSession can't be null for memory/file locker."))

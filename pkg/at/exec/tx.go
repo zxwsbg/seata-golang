@@ -40,7 +40,7 @@ func (tx *Tx) Query(query string, args ...interface{}) (*sql.Rows, error) {
 		}
 		return executor.Execute(tx.lockRetryInterval, tx.lockRetryTimes)
 	} else {
-		return tx.proxyTx.Tx.Query(query, args)
+		return tx.proxyTx.Tx.Query(query, args...)
 	}
 }
 
@@ -105,7 +105,7 @@ func (tx *Tx) Commit() error {
 			return errors.WithStack(err)
 		}
 	} else {
-		log.Error("no undolog")
+		//log.Error("no undolog")
 		return tx.proxyTx.Commit()
 	}
 	return nil

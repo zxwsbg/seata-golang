@@ -19,7 +19,8 @@ import (
 
 func TestLockManager_AcquireLock(t *testing.T) {
 	bs := branchSessionProvider()
-	ok := GetLockManager().AcquireLock(bs)
+	tmp := GetLockManager()
+	ok := tmp.AcquireLock2(bs)
 	assert.Equal(t, ok, true)
 }
 
@@ -31,8 +32,8 @@ func TestLockManager_IsLockable(t *testing.T) {
 
 func TestLockManager_AcquireLock_Fail(t *testing.T) {
 	sessions := branchSessionsProvider()
-	result1 := GetLockManager().AcquireLock(sessions[0])
-	result2 := GetLockManager().AcquireLock(sessions[1])
+	result1 := GetLockManager().AcquireLock2(sessions[0])
+	result2 := GetLockManager().AcquireLock2(sessions[1])
 	assert.True(t, result1)
 	assert.False(t, result2)
 }
@@ -48,13 +49,13 @@ func TestLockManager_AcquireLock_DeadLock(t *testing.T) {
 	wg.Add(2)
 	go func(session *session.BranchSession) {
 		defer wg.Done()
-		result := GetLockManager().AcquireLock(session)
+		result := GetLockManager().AcquireLock2(session)
 		log.Infof("1: %v", result)
 	}(sessions[0])
 
 	go func(session *session.BranchSession) {
 		defer wg.Done()
-		result := GetLockManager().AcquireLock(session)
+		result := GetLockManager().AcquireLock2(session)
 		log.Infof("2: %v", result)
 	}(sessions[1])
 	wg.Wait()
@@ -66,7 +67,7 @@ func TestLockManager_IsLockable2(t *testing.T) {
 	bs.LockKey = "t:4"
 	result1 := GetLockManager().IsLockable(bs.Xid, bs.ResourceId, bs.LockKey)
 	assert.True(t, result1)
-	GetLockManager().AcquireLock(bs)
+	GetLockManager().AcquireLock2(bs)
 	bs.TransactionId = uuid.GeneratorUUID()
 	result2 := GetLockManager().IsLockable(bs.Xid, bs.ResourceId, bs.LockKey)
 	assert.False(t, result2)
@@ -74,14 +75,14 @@ func TestLockManager_IsLockable2(t *testing.T) {
 
 func TestLockManager_AcquireLock_SessionHolder(t *testing.T) {
 	sessions := duplicatePkBranchSessionsProvider()
-	result1 := GetLockManager().AcquireLock(sessions[0])
+	result1 := GetLockManager().AcquireLock2(sessions[0])
 	assert.True(t, result1)
 	assert.Equal(t, int64(4), GetLockManager().GetLockKeyCount())
 	result2 := GetLockManager().ReleaseLock(sessions[0])
 	assert.True(t, result2)
 	assert.Equal(t, int64(0), GetLockManager().GetLockKeyCount())
 
-	result3 := GetLockManager().AcquireLock(sessions[1])
+	result3 := GetLockManager().AcquireLock2(sessions[1])
 	assert.True(t, result3)
 	assert.Equal(t, int64(4), GetLockManager().GetLockKeyCount())
 	result4 := GetLockManager().ReleaseLock(sessions[1])

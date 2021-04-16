@@ -1,12 +1,12 @@
 use seata_order;
 delete from undo_log;
-delete from so_a;
 delete from branch_transaction;
+delete from so_a;
 
 use seata_product;
 delete from undo_log;
-delete from so_b;
 delete from branch_transaction;
+delete from so_b;
 
 use seata;
 delete from branch_table;

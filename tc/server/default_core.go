@@ -84,7 +84,7 @@ func NewCore(sender ServerMessageSender) TransactionCoordinator {
 }
 
 func (core *ATCore) branchSessionLock(globalSession *session.GlobalSession, branchSession *session.BranchSession) error {
-	result := lock.GetLockManager().AcquireLock(branchSession)
+	result := lock.GetLockManager().AcquireLock2(branchSession)
 	if !result {
 		return &meta.TransactionException{
 			Code: meta.TransactionExceptionCodeLockKeyConflict,

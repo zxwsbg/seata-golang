@@ -110,3 +110,19 @@ CREATE TABLE `undo_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+use seata_product;
+delimiter $$
+create procedure pre2()
+begin
+declare i int;
+set i=0;
+while i<50000 do
+insert into so_b values(i,'sbw',100);
+set i=i+1;
+end while;
+end
+$$
+call pre2();
+DROP procedure pre2;
+$$
