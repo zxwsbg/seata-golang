@@ -6,8 +6,11 @@ import (
 )
 
 const (
-	allocateInventorySql = `update seata_product.inventory set available_qty = available_qty - ?, 
-		allocated_qty = allocated_qty + ? where product_sysno = ? and available_qty >= ?`
+	selectSoMaster = `SELECT * FROM seata_product.so_b where id=?`
+	selectSoMasterForUpdate = `SELECT * FROM seata_product.so_b where id=? for update`
+	updateSoMaster = `UPDATE seata_product.so_b set money=? WHERE id=?`
+	insertSoMaster = `INSERT INTO seata_product.so_b (id,name,money) VALUES (?,?,?)`
+	deleteSoMaster = `DELETE FROM seata_product.so_b WHERE id=?`
 )
 
 type Dao struct {
@@ -15,9 +18,13 @@ type Dao struct {
 }
 
 type AllocateInventoryReq struct {
-	ProductSysNo int64
-	Qty          int32
+	Id int
+	Name string
+	Money int
 }
+
+
+var ID = 0
 
 func (dao *Dao) AllocateInventory(ctx *context.RootContext, reqs []*AllocateInventoryReq) error {
 	tx, err := dao.Begin(ctx)
@@ -25,7 +32,13 @@ func (dao *Dao) AllocateInventory(ctx *context.RootContext, reqs []*AllocateInve
 		return err
 	}
 	for _, req := range reqs {
-		_, err := tx.Exec(allocateInventorySql, req.Qty, req.Qty, req.ProductSysNo, req.Qty)
+		soid := ID
+		ID++
+		req.Money = 70
+		//_, err := tx.Query(selectSoMaster, soid)
+		//_, err := tx.Exec(updateSoMaster,req.Money,soid)
+		//_, err = tx.Exec(insertSoMaster, soid,"sbw",req.Money)
+		_, err := tx.Exec(selectSoMaster,soid)
 		if err != nil {
 			tx.Rollback()
 			return err

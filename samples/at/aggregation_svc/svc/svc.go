@@ -21,40 +21,20 @@ type Svc struct {
 
 func (svc *Svc) CreateSo(ctx context.Context, rollback bool) error {
 	rootContext := ctx.(*context2.RootContext)
-	soMasters := []*dao.SoMaster{
+	soMasters := []*dao.So_a{
 		{
-			BuyerUserSysNo:       10001,
-			SellerCompanyCode:    "SC001",
-			ReceiveDivisionSysNo: 110105,
-			ReceiveAddress:       "朝阳区长安街001号",
-			ReceiveZip:           "000001",
-			ReceiveContact:       "斯密达",
-			ReceiveContactPhone:  "18728828296",
-			StockSysNo:           1,
-			PaymentType:          1,
-			SoAmt:                430.5,
-			Status:               10,
-			AppID:                "dk-order",
-			SoItems: []*dao.SoItem{
-				{
-					ProductSysNo:  1,
-					ProductName:   "刺力王",
-					CostPrice:     200,
-					OriginalPrice: 232,
-					DealPrice:     215.25,
-					Quantity:      2,
-				},
-			},
+			Name: "sbw",
+			Money: 100,
 		},
 	}
 
 	reqs := []*dao2.AllocateInventoryReq{{
-		ProductSysNo: 1,
-		Qty:          2,
+		Name: "sbw",
+		Money:100,
 	}}
 
 	type rq1 struct {
-		Req []*dao.SoMaster
+		Req []*dao.So_a
 	}
 
 	type rq2 struct {
